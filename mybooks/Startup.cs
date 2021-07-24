@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using mybooks.Data;
 using mybooks.Data.Services;
+using mybooks.Exceptions;
 
 namespace mybooks
 {
@@ -63,6 +64,10 @@ namespace mybooks
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //excepiton handling
+            app.ConfigureBuildInExceptionHandler();
+            //app.ConfigureCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {

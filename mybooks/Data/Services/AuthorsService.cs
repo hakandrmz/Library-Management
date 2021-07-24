@@ -15,11 +15,11 @@ namespace mybooks.Data.Services
             _context = context;
         }
 
-        public void AddAuthor(AuthorVM book)
+        public void AddAuthor(AuthorVM author)
         {
             var _author = new Author()
             {
-                FullName = book.FullName
+                FullName = author.FullName
             };
             _context.Authors.Add(_author);
             _context.SaveChanges();
