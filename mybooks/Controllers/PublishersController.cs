@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using mybooks.ActionResults;
 using mybooks.Data.Models;
 using mybooks.Data.Services;
@@ -17,10 +18,12 @@ namespace mybooks.Controllers
     public class PublisherController : ControllerBase
     {
         private PublishersService _publishersService;
+        private readonly ILogger<PublisherController> _logger;
 
-        public PublisherController(PublishersService publishersService)
+        public PublisherController(PublishersService publishersService, ILogger<PublisherController> logger)
         {
             _publishersService = publishersService;
+            _logger = logger;
         }
 
         [HttpGet("get-all-publishers")]
@@ -29,6 +32,7 @@ namespace mybooks.Controllers
 
             try
             {
+                _logger.LogInformation("This is just a log in GetAllPublishers");
                 var result = _publishersService.GetAllPublishers(sortBy,searchString,pageNumber);
                 return Ok(result);
             }
