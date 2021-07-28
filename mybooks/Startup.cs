@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using mybooks.Data;
 using mybooks.Data.Services;
@@ -42,6 +43,14 @@ namespace mybooks
             services.AddTransient<BooksService>();
             services.AddTransient<AuthorsService>();
             services.AddTransient<PublishersService>();
+
+            //services.AddApiVersioning(config =>
+            //{
+            //    config.DefaultApiVersion = new ApiVersion(1, 0);
+            //    config.AssumeDefaultVersionWhenUnspecified = true;
+
+//                config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");
+  //          });
 
             services.AddSwaggerGen(c =>
             {

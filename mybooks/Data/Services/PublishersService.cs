@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using mybooks.Data.Models;
+using mybooks.Data.Paging;
 using mybooks.Data.ViewModels;
 using mybooks.Exceptions;
 
@@ -67,6 +68,37 @@ namespace mybooks.Data.Services
 
         private bool StringStartsWithNumber(string name) => (Regex.IsMatch(name, @"^\d"));
 
+        public List<Publisher> GetAllPublishers(string sortBy,string searchString,int? pageNumber)
+        { 
+            var allPublishers = _context.Publishers.OrderBy(n => n.Name).ToList();
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy)
+                {
+                    case "name_desc":
+                        allPublishers = allPublishers.OrderByDescending(n => n.Name).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                allPublishers = allPublishers.Where(n => n.Name
+                    .Contains(searchString,StringComparison.CurrentCultureIgnoreCase)).ToList();
+            }
+
+            //Paging
+            int pageSize = 5;
+            allPublishers = PaginatedList<Publisher>.Create(allPublishers.AsQueryable(),
+                pageNumber ?? 1, pageSize);
+            
+
+            return allPublishers;
+        }
+        
     }
 
 }

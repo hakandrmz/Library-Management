@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using mybooks.ActionResults;
+using mybooks.Data.Models;
 using mybooks.Data.Services;
 using mybooks.Data.ViewModels;
 using mybooks.Exceptions;
@@ -19,6 +21,23 @@ namespace mybooks.Controllers
         public PublisherController(PublishersService publishersService)
         {
             _publishersService = publishersService;
+        }
+
+        [HttpGet("get-all-publishers")]
+        public IActionResult GetAllPublishers(string sortBy,string searchString,int pageNumber)
+        {
+
+            try
+            {
+                var result = _publishersService.GetAllPublishers(sortBy,searchString,pageNumber);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Sorry we could not load the publishers");
+            }
+
+            
         }
 
         [HttpPost("add-publisher")]
@@ -47,9 +66,22 @@ namespace mybooks.Controllers
             var _response = _publishersService.GetPublisherById(id);
             if (_response != null)
             {
+                //var _responseObj = new CustomActionResultVM()
+                //{
+                //    Publisher = _response
+                //};
+
+                //return new CustomActionResult(_responseObj);
                 return Ok(_response);
             } else
             {
+                //return NotFound();
+                //var _responseObj = new CustomActionResultVM()
+                //{
+                //    Exception = new Exception("This is coming from publishers controller")
+                //};
+
+                //return new CustomActionResult(_responseObj);
                 return NotFound();
             }
         }
